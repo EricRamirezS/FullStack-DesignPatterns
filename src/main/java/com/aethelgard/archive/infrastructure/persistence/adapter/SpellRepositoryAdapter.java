@@ -34,10 +34,14 @@ public class SpellRepositoryAdapter implements SpellRepositoryPort, AncientSpell
 
     @Override
     public List<AncientSpell> findByDangerLevelGreaterThan(int dangerLevel) {
-        // Este método forma parte del desafío de los estudiantes en SpellJpaRepository.
+        // TODO: Este método forma parte del desafío en SpellJpaRepository.
+        // Cuando hayas creado el método en el repositorio, comenta la excepción y descomenta el código.
+        throw new UnsupportedOperationException("Requiere solucionar el desafío en SpellJpaRepository.");
+        /*
         return spellJpaRepository.findByDangerLevelGreaterThan(dangerLevel).stream()
                 .map(entity -> entity.toDomain())
                 .collect(Collectors.toList());
+        */
     }
 
     /**
