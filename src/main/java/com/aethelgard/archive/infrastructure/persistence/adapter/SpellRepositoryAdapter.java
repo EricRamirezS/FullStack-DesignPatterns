@@ -1,6 +1,7 @@
 package com.aethelgard.archive.infrastructure.persistence.adapter;
 
 import com.aethelgard.archive.domain.model.AncientSpell;
+import com.aethelgard.archive.domain.port.out.AncientSpellPort;
 import com.aethelgard.archive.domain.port.out.SpellRepositoryPort;
 import com.aethelgard.archive.infrastructure.persistence.repository.SpellJpaRepository;
 import org.springframework.stereotype.Component;
@@ -8,8 +9,12 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Adaptador de persistencia para la gestión de hechizos antiguos.
+ * Implementa tanto el puerto específico de búsqueda como el puerto general de recuperación.
+ */
 @Component
-public class SpellRepositoryAdapter implements SpellRepositoryPort {
+public class SpellRepositoryAdapter implements SpellRepositoryPort, AncientSpellPort {
 
     private final SpellJpaRepository spellJpaRepository;
 
@@ -17,17 +22,27 @@ public class SpellRepositoryAdapter implements SpellRepositoryPort {
         this.spellJpaRepository = spellJpaRepository;
     }
 
+    /**
+     * Recupera todos los hechizos antiguos de la gran biblioteca.
+     */
+    @Override
+    public List<AncientSpell> findAll() {
+        return spellJpaRepository.findAll().stream()
+                .map(entity -> entity.toDomain())
+                .collect(Collectors.toList());
+    }
+
     @Override
     public List<AncientSpell> findByDangerLevelGreaterThan(int dangerLevel) {
-        throw new UnsupportedOperationException("Requiere solucionar el Challenge C en SpellJpaRepository. Descomenta el código de abajo cuando esté listo.");
-        /*
+        // Este método forma parte del desafío de los estudiantes en SpellJpaRepository.
         return spellJpaRepository.findByDangerLevelGreaterThan(dangerLevel).stream()
                 .map(entity -> entity.toDomain())
                 .collect(Collectors.toList());
-        */
     }
 
-    // Required for the Read-Only test
+    /**
+     * Intenta guardar un hechizo (usado para probar la restricción de solo lectura).
+     */
     public void save(AncientSpell spell) {
         spellJpaRepository.save(com.aethelgard.archive.infrastructure.persistence.entity.AncientSpellJpaEntity.fromDomain(spell));
     }
