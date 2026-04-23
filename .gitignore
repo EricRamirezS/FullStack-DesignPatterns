@@ -20,7 +20,7 @@ buildNumber.properties
 .factorypath
 .vscode/
 bin/
-out/
+
 
 # Logs y Archivos temporales
 *.log
